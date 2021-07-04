@@ -57,44 +57,58 @@ Wie studiert man heute? Wie ist die durchschnittliche Nutzung der
 Studierenden von WhatsApp und Co.? (Bezug auf die Studien)\\
 
 
-\chapter{Hintergrund}
-
-\section{E-Learning}
-\section{Lernmanagementsysteme}
-\section{Moderne Kommunikationswege / Kommunikation in der Digitalen Lehre}
-Wie kommunizieren die Studierenden haupts"achlich im Zeitalter der Digitalen Lehre?
-\section{Messenger}
-
 
 
 \chapter{Anforderungen}
+Kernpunkt der Arbeit, auf dem der Hintergrund und die Implementation aufbauen.
+Empirischer Teil: Anforderungsanalyse mit Hilfe eines (Mini-) Fragebogens.
+
+Unterkapitel für jede herausgearbeitete Anforderung (funktional + nicht funktional).
 
 \section{Opensource}
-\section{Messengerauswahl - Softwarealternativen}
-\begin{itemize}
-    \item{Matrix}
-    \item{Rocketchat}
-    \item{Mattermost}
-\end{itemize}
+\section{Stud.IP Plugin}
+\section{keine zus"atzliche API}
+\section{Sicherheit}
+\section{kein zus"atzliches Login}
+\section{Nachrichten senden und empfangen}
+\section{Dateien senden und empfangen}
+
+
+
+\chapter{Hintergrund}
+
+\section{Lernmanagementsysteme}
+Was ist das?
+\subsection{Stud.IP}
+Konkretes Beispiel eines LMS
+\subsection{Stud.IP Schnittstellen}
+JSON-API (Blubber)
+https://hilfe.studip.de/develop/Entwickler/JSONAPI
+
+\section{Messenger}
+Was ist das?
+\subsection{Matrix}
+Konkretes Beispiel eines Messenger-Backends.
+\subsection{Matrix Schnittstellen}
+https://matrix.org/docs/guides/client-server-api
+
 
 
 
 \chapter{Implementation}
-
-\section{Stud.IP}
-\subsection{Blubber}
-\subsection{JSON-API}
-
-\section{Matrix}
-\subsection{Synapse}
-\subsection{Client - Element}
 
 \section{Mappen der APIs}
 
 
 
 \chapter{Evaluation}
+Da vermutlich keine Zeit für eine empirische Evaluation mit einem IRL Test + Umfrage bleibt,
+werden hier technische Tests hinreichen müssen.
 
+\section{Technische Tests}
+\subsection{Unit-Tests}
+Testbeschreibung
+\subsection{Code Coverage}
 \section{Chancen}
 \section{Probleme}
 
