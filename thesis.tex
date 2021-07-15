@@ -55,74 +55,9 @@ Fortw"ahrender Prozess der Weiterentwicklung und Anpassung der Vermittlung von I
 Mailinglisten, Foren, Instant-Messenger \dots \\
 Wie studiert man heute? Wie ist die durchschnittliche Nutzung der
 Studierenden von WhatsApp und Co.? (Bezug auf die Studien)\\
+Digitalisierung generell hervorheben, speziell in den vergangenen Corona- bzw.\ Digitalsemestern
+noch einmal zus"atzlich an Relevanz gewonnen.\\
 
-
-
-
-\chapter{Anforderungen}
-Kernpunkt der Arbeit, auf dem der Hintergrund und die Implementation aufbauen.
-Empirischer Teil: Anforderungsanalyse mit Hilfe eines (Mini-) Fragebogens.
-
-Unterkapitel für jede herausgearbeitete Anforderung (funktional + nicht funktional).
-
-\section{Veranstaltungen auf R"aume abbilden}
-Kurse, Studengruppen, \dots sollten (automatisch) auf R"aume in Matrix abgebildet werden.
-
-\section{kein zus"atzliches Login}
-Nur ein Login für beide Systeme/Dienste. LDAP-Anbindung. Stud.IP Nutzer sollten ohne zus"atzliches Login
-in einen Matrix Raum gelangen können.
-
-\section{Übernahme der Teilnehmendenlisten}
-
-\section{Übersichtliches UI}
-Klare Übersicht (Nachrichten und Bedienung) undabh"angig von OS/Browser/Screensize (Portabilit"at).
-Gute Usability, wenig Klicks und ein modernes Erscheinungsbild.
-
-\section{Benachrichtigungsfunktion}
-Eher ungeeignet: unibezogene/veranstaltungsübergreifende Informationen, wie z.B. Rückmeldefristen, Unischließung, \dots
-(dies w"are ein reiner Infochannel, in dem alle Studierenden sein müssten,
-keine Antwortmöglichkeit -> one-way Kommunikation -> eMail/Stud.IP Benachrichtigung wie bisher ist da vielleicht besser)
-Besser: veranstaltungsbezogene Informationen, z.B. "eine Datei wurde hochgeladen", "Termin f"allt aus"
-
-\section{Nachrichten senden und empfangen (Basisfunktionen)}
-
-\section{Direktnachrichten}
-1-zu-1 Chats
-
-\section{Transparenz}
-Verknüpfung zwischen Stud.IP und Matrix/Element deutlich machen.
-
-\section{Übernahme von Rollen und Rechten}
-Feingranulare Berechtigungen für Studierende ist nur eingeschr"ankt umsetzbar, da es in Matrix nur 3 Rechtestufen gibt.
-Denkbar w"are grob: Dozenten -> Moderator/Admin und Studierende -> Default.
-In Matrix lassen sich zus"atzlich benutzerdefinierte Rechtestufen erstellen, eventuell lassen sich damit alle in Stud.IP
-verfügbaren Rechtestufen abbilden.
-
-\section{mehrere R"aume pro Kurs}
-Es sollten aus einer Stud.IP Veranstaltung mehrere Matrix-R"aume erstellt werden können, die dann als Community
-zusammengefasst werden könnten.
-
-\section{Synchronizit"at}
-Zum einen sollten Matrix und Blubber zeitlich synchron sein. Zum anderen w"are es wünschenswert, wenn
-die in einem System als gelesen markierte Nachrichten auch im anderen System als gelesen markiert würden.
-
-\section{Matrix/Element in Blubber verlinken}
-Chat/Matrix/Element-Icon in Blubber anzeigen, mit dem man zu dem Uni-Matrix/Element-Raum gelangt.
-
-\section{Matrix als Hauptmessengingdienst}
-Weg von Blubber.
-
-\section{Kompatibilit"at von Nachrichten in Blubber und Matrix}
-\subsection{Dateien versenden}
-Verlinken von Inhalten in Stud.IP?
-Eventuell zu aufw"andig.
-\subsection{Emoticons korrekt anzeigen}
-\subsection{Nachrichten sollten editier- und löschbar sein}
-
-\section{Opensource}
-\section{Stud.IP Plugin}
-\section{keine zus"atzliche API}
-\section{Sicherheit}
 
 
 
@@ -136,6 +71,64 @@ Konkretes Beispiel eines LMS
 JSON-API (Blubber)
 https://hilfe.studip.de/develop/Entwickler/JSONAPI
 
+\section{Anbindung von Fremdsystemen an Stud.IP}
+Im Kontext des Lernmanagementsystems Stud.IP existieren mehrere Beispiele für die Anbindung
+oder Einbettung von anderen Systemen an/in die LMS-Software. Im Folgenden werden einige
+Beispiele dafür aufgeführt.
+\subsection{Meetings Plugin}
+Meetings ist ein Stud.IP Videokonferenzplugin (Quelle github), das das LMS mit verschiedenen/unterschiedlichen
+Videokonferenzsoftwarelösungen, wie z.B. BigBlueButton (Quelle bigbluebutton.org), verbindet.
+Das Plugin ermöglicht es direkt aus einer Stud.IP-Veranstaltung heraus R"aume für z.B. Vorlesungen,
+Webinare, Vortr"age oder Gruppenarbeiten anzulegen, denen die Teilnehmer*innen der Veranstaltung
+beitreten können (dank der Rechteverwaltung in Stud.IP).
+Weiterhin können auch externe Personen (ohne Stud.IP-Nutzerkonto) per Einladungslink an
+Videokonferenzen teilnehmen.\\
+- Kommunikation über Mikrofon und Kamera + Screen Sharing\\
+- ideal für dezentrales Lernen und Arbeiten\\
+- Möglichkeit von Aufzeichnungen\\
+- Screenshot des "Raum erstellen" Dialogs mit all seinen Optionen, kurz darauf eingehen\\
+- Funktionsweise kurz erl"autern -> Nutzen der BBB API\\
+
+\subsection{Etherpad Plugin}
+Etherpad ist ein kollaborativer echtzeit Editor, der das gleichzeitige Editieren eines
+Dokuments durch viele Nuter*innen erlaubt (Quelle github Repository).\\
+- (Uni-) eigene Installation\\
+- Integration/Einbettung vom Etherpad per iframe\\
+- Optik anhand eines Screenshots zeigen\\
+- Versionshistorie\\
+- Veröffentlichungsfunktion, sodass das Pad auch außerhalb von Stud.IP per generiertem Link
+zu erreichen ist\\
+- beliebig viele Pads je Stud.IP Veranstaltung\\
+- grob auf die Funktionsweise eingehen
+
+\subsection{Moodle-Connect Plugin}
+Mit Hilfe des Moodle-Connect Plugins lassen sich Veranstaltungen aus Stud.IP mit
+Veranstaltungen des Lernmanagementsystems Moodle verknüpfen (Quelle github).\\
+Genauer gesagt lassen sich Stud.IP Veranstaltungen auf Moodle Veranstaltungen abbilden.\\
+- Veranstaltung aus Stud.IP wird in Moodle übernommen\\
+- Übernahme der Teilnehmer\\
+- Screenshot(s)\\
+- Button in Stud.IP\\
+- Funktionsweise (Moodle + Stud.IP konfigurieren, API Nutzung, Tokengenerierung)\\
+- mit Till sprechen!
+
+\subsection{LTI-Tools / Alija Plugin}
+Dieses Plugin bietet einen einfachen Mechanismus für eine Weiterleitung in eine
+externe Anwendung mit automatischer Anmeldung unter dem gleichen Account (Single-Sign-On) (Quelle svn Repo/Stud.IP Hilfe).
+Unterstützt werden dabei LTI-Tools (Version 1.x der Schnittstelle) sowie
+Stud.IP-Installationen (entweder über LTI oder das Alija-Protokoll).
+Das Plugin kann auf Veranstaltungs- oder Einrichtungsebene aktiviert werden.
+Ähnlich wie bei der "Freien Informationsseite" kann der Titel des Reiters sowie
+ein freier Text angegeben werden, der den Nutzern zur Erläuterung angezeigt wird.
+
+Als Gegenstück zu diesem Plugin benötigt man auf der anderen Seite entweder
+ein mit dem LTI-Standard 1.x kompatibles LTI-Tool oder ein Stud.IP mit
+dem StudipAuthLTI oder StudipAuthAlija Auth-Plugin.\\
+
+- Screenshot\\
+- Einbettung per iframe oder Verlinkung zur jeweiligen externen Anwendung.\\
+- evtl.\ mit Elmar sprechen.
+
 \section{Messenger}
 Was ist das?
 \subsection{Matrix}
@@ -146,9 +139,109 @@ https://matrix.org/docs/guides/client-server-api
 
 
 
-\chapter{Implementation}
+\chapter{Anforderungsanalyse}
+Kernpunkt der Arbeit, auf dem der Hintergrund und die Implementation aufbauen.
+Empirischer Teil: Anforderungsanalyse mit Hilfe eines (Mini-) Fragebogens.
 
-\section{Mappen der APIs}
+\section{Umfrage zur Anforderungsanalyse}
+Unterkapitel für jede herausgearbeitete Anforderung (funktional + nicht funktional).
+
+\section{Grundsatzentscheidung}
+Möglichkeit der beiden entwickelten Konzepte darstellen und die Entscheidung begründen.
+Konzept 1: vollst"andige Bridge (möglichst voller Funktionsumfang) / eigener Client
+- Aufwandsabsch"atzung, hohe Komplexit"at (element-web github Statistiken heranziehen)
+- hoher Pflegeaufwand
+- mit Element ist ein guter Client vorhanden, wieso alles nachbauen?
+Konzept 2: Lose Kopplung, Anbindung statt Integration
+- sinnvolle Diskussion, wie so eine Anbindung aussehen könnte
+- zwei klar getrennte Systeme (Transparenz)
+
+% TODO: Zusammenfassen von Anforderungen
+\section{Anforderungen}
+\subsection{Veranstaltungen auf R"aume abbilden}
+Kurse, Studengruppen, \dots sollten (automatisch) auf R"aume in Matrix abgebildet werden.
+
+\subsection{kein zus"atzliches Login}
+Nur ein Login für beide Systeme/Dienste. LDAP-Anbindung. Stud.IP Nutzer sollten ohne zus"atzliches Login
+in einen Matrix Raum gelangen können.
+
+\subsection{Übernahme der Teilnehmendenlisten}
+
+\subsection{Übersichtliches UI}
+Klare Übersicht (Nachrichten und Bedienung) undabh"angig von OS/Browser/Screensize (Portabilit"at).
+Gute Usability, wenig Klicks zum Bilden von Arbeitsgruppen, Direktchats, usw.\ und ein modernes Erscheinungsbild.
+Matrix/Element in Blubber verlinken:
+Chat/Matrix/Element-Icon in Blubber anzeigen, mit dem man zu dem Uni-Matrix/Element-Raum gelangt.
+
+\subsection{Benachrichtigungsfunktion}
+Eher ungeeignet: unibezogene/veranstaltungsübergreifende Informationen, wie z.B. Rückmeldefristen, Unischließung, \dots
+(dies w"are ein reiner Infochannel, in dem alle Studierenden sein müssten,
+keine Antwortmöglichkeit -> one-way Kommunikation -> eMail/Stud.IP Benachrichtigung wie bisher ist da vielleicht besser)
+Besser: veranstaltungsbezogene Informationen, z.B. "eine Datei wurde hochgeladen", "Termin f"allt aus"
+
+\subsection{Nachrichten senden und empfangen (Basisfunktionen)}
+
+\subsection{Direktnachrichten}
+1-zu-1 Chats\\
+\textbf{Sprechstundenfunktion} bei der man für eine kurze Zeit einen 1-zu-1 Chat
+mit einer Person führt und den Chat danach auch automatisch verlässt.
+Andere Personen sind in der Zeit in einer Warteschlange.
+
+\subsection{Transparenz}
+Verknüpfung zwischen Stud.IP und Matrix/Element deutlich machen.
+
+\subsection{Übernahme von Rollen, Rechten und Status}
+Feingranulare Berechtigungen für Studierende ist nur eingeschr"ankt umsetzbar, da es in Matrix nur 3 Rechtestufen gibt.
+Denkbar w"are grob: Dozenten -> Moderator/Admin und Studierende -> Default.
+In Matrix lassen sich zus"atzlich benutzerdefinierte Rechtestufen erstellen, eventuell lassen sich damit alle in Stud.IP
+verfügbaren Rechtestufen abbilden.\\
+Der eigene Status sollte leicht einzustellen sein oder aus Stud.IP übernommen werden (sichtbar/nicht sichtbar)
+
+\subsection{mehrere R"aume pro Kurs}
+Es sollten aus einer Stud.IP Veranstaltung mehrere Matrix-R"aume erstellt werden können, die dann als Community
+zusammengefasst werden könnten.
+
+\subsection{Synchronizit"at}
+Zum einen sollten Matrix und Blubber zeitlich synchron sein. Zum anderen w"are es wünschenswert, wenn
+die in einem System als gelesen markierte Nachrichten auch im anderen System als gelesen markiert würden.
+
+\subsection{Matrix als Hauptmessengingdienst}
+Weg von Blubber.
+
+\subsection{Kompatibilit"at von Nachrichten in Blubber und Matrix}
+Stud.IP (Blubber) sollte als regul"arer Client agieren.\\
+\textbf{Dateien versenden}
+Verlinken von Inhalten in Stud.IP
+Eventuell zu aufw"andig.\\
+\textbf{Emoticons korrekt anzeigen}\\
+\textbf{Nachrichten sollten editier- und löschbar sein}
+
+\subsection{Stummschalten von (Veranstaltungs-) R"aumen}
+In Stud.IP ist es bisher nicht vorgesehen einzelne Blubber-Nachrichten als gelesen zu markieren.
+\subsection{Übernahme des Stud.IP Profilbildes}
+\subsection{Support-Hotline-Raum}
+Eine Support-Hotline-Funktion bei der man eine Gruppe von Personen erreichen kann,
+um ein Anliegen zu besprechen und der Chat beendet wird, nach dem das Anliegen erledigt ist
+bzw.\ nur der Kunde aus dem Chat entfernt wird.
+
+% nicht funktionale Anforderungen, die allerdings NICHT in der Anforderungsanalyse herausgefallen sind
+\subsection{Opensource}
+\subsection{Stud.IP Plugin}
+\subsection{keine zus"atzliche API}
+\subsection{Sicherheit}
+
+
+
+\chapter{Implementation}
+Hier die Anforderungskapitelüberschriften kopieren und Stück für Stück erörtern.
+
+
+
+\chapter{Deployment}
+Unter Umst"anden beschreiben, wie Matrix mit Hilfe von Ansible im Kontext der Praxisrelevanz
+aufgesetzt werden kann.
+(Wobei man auch einfach einen bereits bestehenden Matrix-Server voraussetzen könnte).
+Eventuell die Installation des Stud.IP Plugins und die nötige Konfiguration beschreiben.
 
 
 
