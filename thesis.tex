@@ -11,6 +11,7 @@
 \usepackage{units}    % useful for settings units:              \unit[23]{m}
 \usepackage{nicefrac} % for setting fractions esp. within text: \nicefrac{km}{h}
 
+\usepackage{minted}
 \usepackage{algorithm, algorithmic}  % for pseudo code (cf. documentation)
 \renewcommand{\algorithmiccomment}[1]{\qquad{\small // \textit{#1}}}
 
@@ -67,10 +68,55 @@ noch einmal zus"atzlich an Relevanz gewonnen.\\
 \chapter{Hintergrund}
 
 \section{Lernmanagementsysteme}
-Was ist das?
+\label{sec:lms}
+Lernmanagementsysteme, im Folgenden mit LMS abgekürzt, dienen der Unterstützung
+von Lehr- und Lernprozessen im Kontext von E-Learning sowie der Verwaltung von
+Lehrmaterialien und Nutzerdaten. Diese Online-Lernplattformen bilden an vielen Hochschulen aber auch anderen Institutionen
+die Basis einer E-Learning-Infrastruktur.\\
+Die Hauptfunktion, die ein LMS in der Regel erfüllt, ist die Organisation des Lehrbetriebs,
+insbesondere das Anlegen von Veranstaltungen,
+die Bereitstellung von Lerninhalten und die Kommunikation zwischen Lehrenden und Lernenden.\\
+Definition nach Schulmeister \cite[S. 10]{Schulmeister:2005}:
+Als Lernplattformen oder Learning Management Systeme werden im Unterschied zu bloßen Kollektionen
+von Lehrskripten oder Hypertext -Sammlungen auf Webservern solche Software -Systeme bezeichnet,
+die über folgende Funktionen verfügen:\\
+\begin{itemize}
+    \item{Eine Benutzerverwaltung (Anmeldung mit Verschlüsselung)}
+    \item{Eine Kursverwaltung (Kurse, Verwaltung der Inhalte, Dateiverwaltung)}
+    \item{Eine Rollen- und Rechtevergabe mit differenzierten Rechten}
+    \item{Kommunikationsmethoden (Chat, Foren) und Werkzeuge für das Lernen (Whiteboard, Notizbuch, Annotationen, Kalender etc.)}
+    \item {Die Darstellung der Kursinhalte, Lernobjekte und Medien in einem netzwerkfähigen Browser.}
+\end{itemize}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=300px]{images/lms.png}
+    \caption[LMS Architektur]{LMS Architektur \cite[S. 11]{Schulmeister:2005}}
+    \label{fig:lms}
+\end{figure}
+Die Abbildung~\ref{fig:lms} zeigt die Architektur eines idealtypischen LMS\@. Auf der Ebene der
+Datenbasis \\
+- Content-Management; Archivierung, Distribution und Wiederverwendung von Lerninhalten\\
+- Administrative Ebene: Nutzer- + Kursverwaltung, Institutionen, Evaluation\\
+- Lernumgebung: Kommunikation, Werkzeuge
+
 \subsection{Stud.IP}
-Konkretes Beispiel eines LMS
+Stud.IP ist eine Open Source Implementation eines LMS, dass Anfang der 2000er Jahre entwickelt wurde.
+Mit ihren offenen Schnittstellen erlaubt die digitale Lernplattform
+die Integration von externen Systemen und Anwendungen zum Einsatz in der digitalen Lehre.
+Neben Hochschulen gehören ebenfalls Schulen, Unternehmen,
+Verb"ande und Behörden zu den Einsatzgebieten von Stud.IP.\\
+Insgesamt gibt es derzeit ca\@. 70 Installationen mit ungef"ahr 600.000 Nutzerinnen und Nutzern (Quelle: studip.de).
+Stud.IP versucht durch stetige Verbesserungen und Anpassungen den Anforderungen der sich
+"andernden Gegebenheiten der digitalen Lehre gerecht zu werden. Dabei ist ein kontinuierlicher Dialog
+zwischen Lehrenden, Lernenden und Entwicklern essentiell.\\
+Stud.IP erfüllt alle im vorherigen Abschnitt~\ref{sec:lms} aufgeführten Anforderungen an ein LMS.\\
+Neben einer ausgereiften Benutzer- und Kursverwaltung inklusive eines Rollen- und Rechtesystems,
+gibt es ebenfalls ein Forum und einen Chat zur Kommunikation sowie diverse Lernwerkzeuge (Etherpad, Wiki, Courseware, Vips)
+
 \subsection{Stud.IP Schnittstellen}
+Stud.IP verfügt über eine JSON-API, mit deren Hilfe man diverse Daten abrufen sowie dem System hinzufügen kann,
+vorausgesetzt man verfügt über die entsprechenden Rechte.
+Besonderes Augenmerk auf Kommunikation zwischen Lehrenden und Lernenden (natürlich auch untereinander).
 JSON-API (Blubber)
 https://hilfe.studip.de/develop/Entwickler/JSONAPI
 
@@ -90,7 +136,20 @@ Videokonferenzen teilnehmen.\\
 - ideal für dezentrales Lernen und Arbeiten\\
 - Möglichkeit von Aufzeichnungen\\
 - Screenshot des "Raum erstellen" Dialogs mit all seinen Optionen, kurz darauf eingehen\\
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=400px]{images/meetings_dialog.jpeg}
+    \caption[Meetings-Plugin: Dialog bei Raumerstellung]{Meetings-Plugin: Dialog bei Raumerstellung}
+    \label{fig:meetings-dialog}
+\end{figure}
 - Funktionsweise kurz erl"autern -> Nutzen der BBB API\\
+- BigBlueButton API zum erstellen eines Meetings (create):\\
+\mintinline{http}{http://yourserver.com/bigbluebutton/api/create?[parameters]&checksum=[checksum]}\\
+In Stud.IP direkt
+
+\inputminted[linenos=true]{php}{code/meetings_performRequest.php}
+\inputminted[linenos=true]{php}{code/meetings_getMeetingInfo.php}
+
 
 \subsection{Etherpad Plugin}
 Etherpad ist ein kollaborativer echtzeit Editor, der das gleichzeitige Editieren eines
@@ -147,6 +206,12 @@ Kernpunkt der Arbeit, auf dem der Hintergrund und die Implementation aufbauen.
 Empirischer Teil: Anforderungsanalyse mit Hilfe eines (Mini-) Fragebogens.
 
 \section{Umfrage zur Anforderungsanalyse}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=300px]{images/survey_distribution.png}
+    \caption[Umfrage: Teilnehmendenverteilung]{Umfrage: Teilnehmendenverteilung}
+    \label{fig:survey-distribution}
+\end{figure}
 Unterkapitel für jede herausgearbeitete Anforderung (funktional + nicht funktional).
 \textbf{Support-Hotline-Raum}
 Eine Support-Hotline-Funktion bei der man eine Gruppe von Personen erreichen kann,
@@ -285,6 +350,108 @@ Cronjob 1x Std., gibt es noch Ereignisse, die nicht abgearbeitet wurden?
 \chapter{Implementation}
 Hier die Anforderungskapitelüberschriften kopieren und Stück für Stück erörtern. Sinnhaftigkeit, Umsetzung,
 Mögliche Umsetzung oder keine Umsetzung diskutieren.
+
+\subsection{Übernamhme von Veranstaltungsinformationen Veranstaltungen auf R"aume abbilden + Übernahme der Teilnehmendenlisten}
+Kurse, Studengruppen, \dots sollten (automatisch) auf R"aume in Matrix abgebildet werden.
+
+\subsection{kein zus"atzliches Login}
+Nur ein Login für beide Systeme/Dienste. Single Sign-On Stud.IP Nutzer sollten ohne zus"atzliches Login
+in einen Matrix Raum gelangen können.
+
+\subsection{Benachrichtigungsfunktion}
+\textbf{Synchronizit"at}
+Zum einen sollten Matrix und Blubber zeitlich synchron sein. Zum anderen w"are es wünschenswert, wenn
+die in einem System als gelesen markierte Nachrichten auch im anderen System als gelesen markiert würden.
+
+Man möchte in Matrix über relevante Ereignisse informiert werden. (-> sp"ater, was ist eigentlich relevant, Tabelle: Relevanzabsch"atzung für ereignisse,
+was ist relevant für alle? persönliche Pr"aferenzen kann man mit dem hier entschiedenen Modell nicht berücksichtigen, deshalb
+sind folgende
+Konfiguration pro Veranstaltung sinnvoll? Welche Ereignisse sollen Erscheinen, oder nicht?Diskussion, was spricht dafür, was spricht dagegegen? 
+Aus studentensicht evtl.\ verwirrend -> Agrument gegen Konfig.
+Elmar oder Marcus -> Noftifications, wenn z.B. eine Datei hochgeladen wird.
+Richtung Stud.IP -> Matrix, oder Matrix -> Stud.IP (nicht genannt, aber der Vollst"andigkeit halber dennoch genannt)
+braucht man eine Konfigurationsmöglichkeit dafür?
+wichtige Infos über die Kopplung hinweg.
+Informationsveranstaltung mit uniübergreifenden Infos, denkbar.
+(Eher ungeeignet, nach unten): unibezogene/veranstaltungsübergreifende Informationen, wie z.B. Rückmeldefristen, Unischließung, \dots
+(dies w"are ein reiner Infochannel, in dem alle Studierenden sein müssten,
+keine Antwortmöglichkeit -> one-way Kommunikation -> eMail/Stud.IP Benachrichtigung wie bisher ist da vielleicht besser)
+Besser: veranstaltungsbezogene Informationen, z.B. "eine Datei wurde hochgeladen", "Termin f"allt aus"
+
+
+\subsection{Direktnachrichten}
+1-zu-1 Chats\\
+
+\textbf{Sprechstundenfunktion} bei der man für eine kurze Zeit einen 1-zu-1 Chat
+mit einer Person führt und den Chat danach auch automatisch verlässt.
+Andere Personen sind in der Zeit in einer Warteschlange.
+
+\subsection{Transparenz}
+Verknüpfung zwischen Stud.IP und Matrix/Element deutlich machen.
+Welche Konsequenzen hat das eigene Handeln in Matrix, wenn ich in Stud.IP etwas mache?
+"Diese Aktion wird in Matrix erscheinen."
+"Wie bekommen die Studierenden mit, dass es den Kanal gibt?" - Studierende sollten irgendwie informiert werden.
+Reiter: Messenger -> Infos + Kurzanleitung + evtl. Konfiguration
+Kann man deutlich machen, wie w"are es denn, wenn ich in Stud.IP sehen kann, wenn in Element etwas passiert.\
+was heißt es eigenltich, wenn man zwei verschiedene Dienste hat?
+Was soll wo passieren? Hochladen einer Datei -> Dialog: erscheint auch im Matrix-Kanal, Schalter (Analyse Idee, schreiben, nicht umsetzen)?
+(Implementation: gibt Stud.IP)
+
+\subsection{Übernahme von Rollen, Rechten und Status}
+manuelle Nutzerverwaltung in Matrix sollte nicht genutzt werden, zwischen Doz und Tutoren nicht unterscheiden.
+Userstatus spielt in der Praxis kaum eine Rolle. Synchen der User. User = autoren
+Anbindung von Fremdsystemen mit einem anderen Rollen-Rechte-Konzept.
+Feingranulare Berechtigungen für Studierende ist nur eingeschr"ankt umsetzbar, da es in Matrix nur 3 Rechtestufen gibt.
+Denkbar w"are grob: Dozenten -> Moderator/Admin und Studierende -> Default.
+In Matrix lassen sich zus"atzlich benutzerdefinierte Rechtestufen erstellen, eventuell lassen sich damit alle in Stud.IP
+verfügbaren Rechtestufen abbilden.\\
+Der eigene Status sollte leicht einzustellen sein oder aus Stud.IP übernommen werden (sichtbar/nicht sichtbar)
+Man könnte in Matrix auch manuelle Rollen anlegen
+Datenschutzaspekt: Ich möchte unsichtbar sein, in Matrix schwierig.
+Datenschutzrechtliche Begründung, warum steht der Name der Studenten in der Raumliste?
+beibehalten der Kommunikationskultur, keine anonymen Beitr"age möglich
+in Matrix raumbezogene Einstellung: Teilnehmerliste ist sichtbar oder nicht
+in synchronisierten Raeumen wir die Teilnehmerliste nicht angezeigt, kann Matrix das? Diskussion, was mache ich jetzt?
+1. ich halte fest, es ist ein offenes Problem, Umsetzung trotz nicht datenschutzkonform
+2. leute, die sich unsichtbar geschaltet haben, werden nicht mitsynchronisiert, die bekommen evtl nichts mehr mit
+3. leute, die in min 1 VA unsichtbar sind -> mit Synonym sichtbar machen.
+- jeder Student muss von Stud.IP aus seine Zustimmung geben, das weitergeben des Nutzers an Matrix aktivieren (ist das sinnvoll?)
+gibt es Alternativen? ich sehe keinen guten Grund, das eine oder andere zu machen. -> Workshop mit Entwicklern und Didaktikern -> Ergebnisse
+-> Aus technischer Sicht gibt es keinen Grund, das eine oder das andere zu nehmen, Workshop hat ergeben: folgendes Ergebnis
+Beim Austragen oder aendern der Rechtestufe in Matrix synchron zu halten. -> Cronjob einmal stündlich
+Lose Kopplung, nur einmal anlegen, was danach mit dem Raum passiert ist offen
+
+\subsection{mehrere R"aume pro Kurs}
+Es sollten aus einer Stud.IP Veranstaltung mehrere Matrix-R"aume erstellt werden können, die dann als Community
+zusammengefasst werden könnten.
+Mögliche Erweiterung (sinnvoll oder nicht?)
+
+\subsection{Kompatibilit"at von Nachrichten in Blubber und Matrix}
+Stud.IP (Blubber) sollte als regul"arer Client agieren.\\
+\textbf{Dateien versenden}
+Verlinken von Inhalten in Stud.IP
+Eventuell zu aufw"andig.\\
+\textbf{Emoticons korrekt anzeigen}\\
+\textbf{Nachrichten sollten editier- und löschbar sein}
+
+\subsection{Übernahme des Stud.IP Profilbildes}
+Personenbezogene Daten. Datenschutz. Sobald Matrixkopplung, dann auch Bild übertragen (im Reiter, s.o.), aktive Zustimmung
+verweis auf Profil->Einstellungen->Privatsph"are->Eigenes Bild
+Stud.IP: Wie darf mein Bild verwendet werden? "Darf auch extern angezeigt werden"
+gibt die API das überhaupt her, kann man auch weglassen, wenn es aus Zeitgründen nicht mehr klappt
+
+% nicht funktionale Anforderungen, die allerdings NICHT in der Anforderungsanalyse herausgefallen sind
+\subsection{Opensource}
+\subsection{Stud.IP Plugin}
+\subsection{keine zus"atzliche API}
+\subsection{Sicherheit}
+\subsection{Robustheit, Ausfallsicherheit}
+was passiert, wenn der Matrix Server für 3 Std.\ ausfaellt? Werden Messages gepuffert?
+Implementation direkt über eine Que laufen lassen, DB mit Ergebnissen, die noch so Matrix geschickt werden müssen +
+Cronjob 1x Std., gibt es noch Ereignisse, die nicht abgearbeitet wurden?
+%Performance, woanders betrachten
+
+
 
 
 
