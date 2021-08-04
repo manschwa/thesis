@@ -1,4 +1,4 @@
-<? php
+<?php
 private function performRequest($endpoint, array $params = array(), array $options = [])
 {
     $uri = 'api/'.$endpoint.'?'.$this->buildQueryString($params);

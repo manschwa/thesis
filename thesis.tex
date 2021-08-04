@@ -35,22 +35,31 @@
 \cleardoublepage
 
 \begin{prefacesection}{Zusammenfassung}
-
-Die vorliegende Arbeit \dots
+Die vorliegende Arbeit entstand in der Arbeitsgruppe Software Engineering
+an der Universit"at Osnabrück im Bereich Webentwicklung
+und befasst sich mit der Anbindung von Messaging-Systemen an Lernmanagementsysteme.
+Kern der Arbeit ist die Erstellung und sinnvolle Umsetzung eines Anforderungskatalogs
+für das oben genannte Thema am Beispiel der Messaging-Software Matrix und der Lernplattform Stud.IP\@.\\
+Einleitend wird eine kurze Motivation des Themas gegeben.
+Daraufhin folgt ein Grundlagenkapitel mit allen für diese Arbeit relevanten Hintergrundinformationen.
+Die Anforderungsanalyse bildet das n"achste Kapitel, in dem die Erhebung sowie alle daraus entstandenen Anforderungen
+aufgelistet und beschrieben werden.
+Anschließend wird die Umsetzung der herausgearbeiteten Anforderungen im Implementationskapitel dargestellt.\\
+- Deployment?\\
+Abschließend endet die Arbeit mit einer kurzen, größtenteils technischen Evaluation sowie einem Ausblick, der sich mit
+möglichen Verbesserungen und Erweiterungen für den Praxiseinsatz besch"aftigt.
 
 \end{prefacesection}
 
 \cleardoublepage
 \tableofcontents
 
+\cleardoublepage
+\listoffigures
 
 \startTextChapters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Motivation}
-Praesens, Passivkonstruktionen, KEIN Erlebnisbericht
-Ich habe für X/Y entschieden, eigene Schlussfolgerungen kenntlich machen
-Im Hintergrund keine wertenden Einschaetzungen!
-
 Lehren und Lernen im digitalen Zeitalter.\\
 Moderne Kommunikationswege und - mittel studiumsunterstützend einsetzen.\\
 Aktuelle Werkzeuge nutzen, um Studierenden eine möglichst niedrige
@@ -66,6 +75,9 @@ noch einmal zus"atzlich an Relevanz gewonnen.\\
 
 
 \chapter{Hintergrund}
+Das folgende Kapitel befasst sich knapp mit den Grundlagen, die dieser Arbeit zu Grunde liegen.
+Begonnen bei Lernmanagementsystemen und Messanging-Systemen, hin zu den konkreten Implementationen
+Stud.IP und Matrix sowie Beispielen für die Anbindung anderer Fremdsysteme an eine Lernplattform.\\
 
 \section{Lernmanagementsysteme}
 \label{sec:lms}
@@ -78,7 +90,7 @@ insbesondere das Anlegen von Veranstaltungen,
 die Bereitstellung von Lerninhalten und die Kommunikation zwischen Lehrenden und Lernenden.\\
 Definition nach Schulmeister \cite[S. 10]{Schulmeister:2005}:
 Als Lernplattformen oder Learning Management Systeme werden im Unterschied zu bloßen Kollektionen
-von Lehrskripten oder Hypertext -Sammlungen auf Webservern solche Software -Systeme bezeichnet,
+von Lehrskripten oder Hypertext-Sammlungen auf Webservern solche Software-Systeme bezeichnet,
 die über folgende Funktionen verfügen:\\
 \begin{itemize}
     \item{Eine Benutzerverwaltung (Anmeldung mit Verschlüsselung)}
@@ -94,24 +106,27 @@ die über folgende Funktionen verfügen:\\
     \label{fig:lms}
 \end{figure}
 Die Abbildung~\ref{fig:lms} zeigt die Architektur eines idealtypischen LMS\@. Auf der Ebene der
-Datenbasis \\
-- Content-Management; Archivierung, Distribution und Wiederverwendung von Lerninhalten\\
-- Administrative Ebene: Nutzer- + Kursverwaltung, Institutionen, Evaluation\\
-- Lernumgebung: Kommunikation, Werkzeuge
+Datenbasis bildet meist ein Content-Management-System die Grundlage der Datenverwaltung.
+Neben Personen- und Kursdaten, können ebenso Lerninhalte archiviert, verteilt und wiederverwendet werden.\\
+Darauf aufbauend ist es möglich je nach Bedarf interne sowie externe Schnittstellen zu anderen Systemen zu definieren.\\
+Auf höchster Abstraktionsebene stellt das Diagramm drei Hauptkategorien der Nutzung dar. Zun"achst sollte es eine
+administrative Ebene mit einer Nutzer-, Institutions-, und Kursverwaltung sowie der Option für Evaluationen geben.
+Die zweite Kategorie repr"asentiert eine Lernumgebung mit ihren Werkzeugen und Kommunikationswegen. Der letzte Block beschreibt
+das Authoring, dass die konkreten Lernobjekte, Aufgaben und Tests umfasst.\\
 
 \subsection{Stud.IP}
 Stud.IP ist eine Open Source Implementation eines LMS, dass Anfang der 2000er Jahre entwickelt wurde.
-Mit ihren offenen Schnittstellen erlaubt die digitale Lernplattform
+Mit ihren offenen Schnittstellen erlaubt diese digitale Lernplattform
 die Integration von externen Systemen und Anwendungen zum Einsatz in der digitalen Lehre.
 Neben Hochschulen gehören ebenfalls Schulen, Unternehmen,
-Verb"ande und Behörden zu den Einsatzgebieten von Stud.IP.\\
-Insgesamt gibt es derzeit ca\@. 70 Installationen mit ungef"ahr 600.000 Nutzerinnen und Nutzern (Quelle: studip.de).
+Verb"ande und Behörden zu den Einsatzgebieten von Stud.IP\@.
+Insgesamt gibt es derzeit ca\@. 70 Installationen mit ungef"ahr 600.000 Nutzerinnen und Nutzern (Quelle: studip.de).\\
 Stud.IP versucht durch stetige Verbesserungen und Anpassungen den Anforderungen der sich
 "andernden Gegebenheiten der digitalen Lehre gerecht zu werden. Dabei ist ein kontinuierlicher Dialog
-zwischen Lehrenden, Lernenden und Entwicklern essentiell.\\
+zwischen Lehrenden, Lernenden sowie Entwicklern essentiell.\\
 Stud.IP erfüllt alle im vorherigen Abschnitt~\ref{sec:lms} aufgeführten Anforderungen an ein LMS.\\
 Neben einer ausgereiften Benutzer- und Kursverwaltung inklusive eines Rollen- und Rechtesystems,
-gibt es ebenfalls ein Forum und einen Chat zur Kommunikation sowie diverse Lernwerkzeuge (Etherpad, Wiki, Courseware, Vips)
+existiert ebenfalls ein Forum und ein Chat zur Kommunikation sowie diverse Lernwerkzeuge (Etherpad, Wiki, Courseware, Vips).\\
 
 \subsection{Stud.IP Schnittstellen}
 Stud.IP verfügt über eine JSON-API, mit deren Hilfe man diverse Daten abrufen sowie dem System hinzufügen kann,
@@ -246,52 +261,16 @@ In Stud.IP ist es bisher nicht vorgesehen einzelne Blubber-Nachrichten als geles
 % TODO: Zusammenfassen von Anforderungen
 \section{Anforderungen}
 \subsection{Übernamhme von Veranstaltungsinformationen Veranstaltungen auf R"aume abbilden + Übernahme der Teilnehmendenlisten}
-Kurse, Studengruppen, \dots sollten (automatisch) auf R"aume in Matrix abgebildet werden.
-
-\subsection{kein zus"atzliches Login}
-Nur ein Login für beide Systeme/Dienste. Single Sign-On Stud.IP Nutzer sollten ohne zus"atzliches Login
-in einen Matrix Raum gelangen können.
-
-\subsection{Benachrichtigungsfunktion}
-\textbf{Synchronizit"at}
-Zum einen sollten Matrix und Blubber zeitlich synchron sein. Zum anderen w"are es wünschenswert, wenn
-die in einem System als gelesen markierte Nachrichten auch im anderen System als gelesen markiert würden.
-
-Man möchte in Matrix über relevante Ereignisse informiert werden. (-> sp"ater, was ist eigentlich relevant, Tabelle: Relevanzabsch"atzung für ereignisse,
-was ist relevant für alle? persönliche Pr"aferenzen kann man mit dem hier entschiedenen Modell nicht berücksichtigen, deshalb
-sind folgende
-Konfiguration pro Veranstaltung sinnvoll? Welche Ereignisse sollen Erscheinen, oder nicht?Diskussion, was spricht dafür, was spricht dagegegen? 
-Aus studentensicht evtl.\ verwirrend -> Agrument gegen Konfig.
-Elmar oder Marcus -> Noftifications, wenn z.B. eine Datei hochgeladen wird.
-Richtung Stud.IP -> Matrix, oder Matrix -> Stud.IP (nicht genannt, aber der Vollst"andigkeit halber dennoch genannt)
-braucht man eine Konfigurationsmöglichkeit dafür?
-wichtige Infos über die Kopplung hinweg.
-Informationsveranstaltung mit uniübergreifenden Infos, denkbar.
-(Eher ungeeignet, nach unten): unibezogene/veranstaltungsübergreifende Informationen, wie z.B. Rückmeldefristen, Unischließung, \dots
-(dies w"are ein reiner Infochannel, in dem alle Studierenden sein müssten,
-keine Antwortmöglichkeit -> one-way Kommunikation -> eMail/Stud.IP Benachrichtigung wie bisher ist da vielleicht besser)
-Besser: veranstaltungsbezogene Informationen, z.B. "eine Datei wurde hochgeladen", "Termin f"allt aus"
-
-
-\subsection{Direktnachrichten}
-1-zu-1 Chats\\
-
-\textbf{Sprechstundenfunktion} bei der man für eine kurze Zeit einen 1-zu-1 Chat
-mit einer Person führt und den Chat danach auch automatisch verlässt.
-Andere Personen sind in der Zeit in einer Warteschlange.
-
-\subsection{Transparenz}
-Verknüpfung zwischen Stud.IP und Matrix/Element deutlich machen.
-Welche Konsequenzen hat das eigene Handeln in Matrix, wenn ich in Stud.IP etwas mache?
-"Diese Aktion wird in Matrix erscheinen."
-"Wie bekommen die Studierenden mit, dass es den Kanal gibt?" - Studierende sollten irgendwie informiert werden.
-Reiter: Messenger -> Infos + Kurzanleitung + evtl. Konfiguration
-Kann man deutlich machen, wie w"are es denn, wenn ich in Stud.IP sehen kann, wenn in Element etwas passiert.\
-was heißt es eigenltich, wenn man zwei verschiedene Dienste hat?
-Was soll wo passieren? Hochladen einer Datei -> Dialog: erscheint auch im Matrix-Kanal, Schalter (Analyse Idee, schreiben, nicht umsetzen)?
-(Implementation: gibt Stud.IP)
+Kurse, Studengruppen, \dots sollten (automatisch) auf R"aume in Matrix abgebildet werden.\\
+Reiter: Chat mit konfigurationseinstellungen
+- nach Aktivierung nur für Doz und Tutoren sichtbar, die sollten die Erzeugung des Matrixraums anstoßen, nur, wenn eine Parametrisierung notwendig,
+sonst mit Pluginaktivierung automatisch machen
+- was passiert beim Löschen in Stud.IP und beim erneuten Anlegen?
+- wenn Raum erzeugt wurde, ist der Reiter auch für Studierende sichtbar mit Anleitung (Einfach halten, "Platzhalter"), + Knopf für Profilerstellung/Übertragung zu Matrix
 
 \subsection{Übernahme von Rollen, Rechten und Status}
+Keine automatische Übernahme der Teilnehmerliste, Datenschutz, einzeln Übernahme anstoßen pro Teilnehmer, Sichtbarkeitseinstellungen
+in Matrix nicht abbildbar. (mit Elmar sprechen!, Axel, Jens)
 manuelle Nutzerverwaltung in Matrix sollte nicht genutzt werden, zwischen Doz und Tutoren nicht unterscheiden.
 Userstatus spielt in der Praxis kaum eine Rolle. Synchen der User. User = autoren
 Anbindung von Fremdsystemen mit einem anderen Rollen-Rechte-Konzept.
@@ -315,7 +294,54 @@ gibt es Alternativen? ich sehe keinen guten Grund, das eine oder andere zu mache
 Beim Austragen oder aendern der Rechtestufe in Matrix synchron zu halten. -> Cronjob einmal stündlich
 Lose Kopplung, nur einmal anlegen, was danach mit dem Raum passiert ist offen
 
+\subsection{kein zus"atzliches Login}
+Nur ein Login für beide Systeme/Dienste. Single Sign-On Stud.IP Nutzer sollten ohne zus"atzliches Login
+in einen Matrix Raum gelangen können.
+
+\subsection{Benachrichtigungsfunktion}
+\textbf{Synchronizit"at}
+Zum einen sollten Matrix und Blubber zeitlich synchron sein. Zum anderen w"are es wünschenswert, wenn
+die in einem System als gelesen markierte Nachrichten auch im anderen System als gelesen markiert würden.
+
+Man möchte in Matrix über relevante Ereignisse informiert werden. (-> sp"ater, was ist eigentlich relevant, Tabelle: Relevanzabsch"atzung für ereignisse,
+was ist relevant für alle? persönliche Pr"aferenzen kann man mit dem hier entschiedenen Modell nicht berücksichtigen, deshalb
+sind folgende
+Konfiguration pro Veranstaltung sinnvoll? Welche Ereignisse sollen Erscheinen, oder nicht?Diskussion, was spricht dafür, was spricht dagegegen? 
+Aus studentensicht evtl.\ verwirrend -> Agrument gegen Konfig.
+Elmar oder Marcus -> Noftifications, wenn z.B. eine Datei hochgeladen wird. NotificationCenter::addOberver
+Richtung Stud.IP -> Matrix, oder Matrix -> Stud.IP (nicht genannt, aber der Vollst"andigkeit halber dennoch genannt)
+braucht man eine Konfigurationsmöglichkeit dafür?
+wichtige Infos über die Kopplung hinweg.
+Informationsveranstaltung mit uniübergreifenden Infos, denkbar.
+(Eher ungeeignet, nach unten): unibezogene/veranstaltungsübergreifende Informationen, wie z.B. Rückmeldefristen, Unischließung, \dots
+(dies w"are ein reiner Infochannel, in dem alle Studierenden sein müssten,
+keine Antwortmöglichkeit -> one-way Kommunikation -> eMail/Stud.IP Benachrichtigung wie bisher ist da vielleicht besser)
+Besser: veranstaltungsbezogene Informationen, z.B. "eine Datei wurde hochgeladen", "Termin f"allt aus"
+
+
+\subsection{Transparenz}
+(wird tendenziell nicht umgesetzt -> nur Konzept)
+Verknüpfung zwischen Stud.IP und Matrix/Element deutlich machen.
+Welche Konsequenzen hat das eigene Handeln in Matrix, wenn ich in Stud.IP etwas mache?
+"Diese Aktion wird in Matrix erscheinen."
+"Wie bekommen die Studierenden mit, dass es den Kanal gibt?" - Studierende sollten irgendwie informiert werden.
+Reiter: Messenger -> Infos + Kurzanleitung + evtl. Konfiguration
+Kann man deutlich machen, wie w"are es denn, wenn ich in Stud.IP sehen kann, wenn in Element etwas passiert.\
+was heißt es eigenltich, wenn man zwei verschiedene Dienste hat?
+Was soll wo passieren? Hochladen einer Datei -> Dialog: erscheint auch im Matrix-Kanal, Schalter (Analyse Idee, schreiben, nicht umsetzen)?
+(Implementation: gibt Stud.IP)
+
+\subsection{Direktnachrichten}
+1-zu-1 Chats\\
+- ist bereits in Matrix vorhanden, deshalb in der Umsetzung nicht vorgesehen
+- man Könnte die Stud.IP Direktchats mit Matrix verbinden
+
+\textbf{Sprechstundenfunktion} bei der man für eine kurze Zeit einen 1-zu-1 Chat
+mit einer Person führt und den Chat danach auch automatisch verlässt.
+Andere Personen sind in der Zeit in einer Warteschlange.
+
 \subsection{mehrere R"aume pro Kurs}
+(keine Umsetzung, nur Konzept)
 Es sollten aus einer Stud.IP Veranstaltung mehrere Matrix-R"aume erstellt werden können, die dann als Community
 zusammengefasst werden könnten.
 Mögliche Erweiterung (sinnvoll oder nicht?)
@@ -334,11 +360,45 @@ verweis auf Profil->Einstellungen->Privatsph"are->Eigenes Bild
 Stud.IP: Wie darf mein Bild verwendet werden? "Darf auch extern angezeigt werden"
 gibt die API das überhaupt her, kann man auch weglassen, wenn es aus Zeitgründen nicht mehr klappt
 
+\subsection{Stautsindikator in Stud.IP}
+(umsetzen)
+Icon für Reiter in Stud.IP. objectsUserVisit Tabelle
+- Wie viele Nachrichten gab es in Matrix seit dem letzten Besuch (Anzeige durch Icon + Tooltip + Benachrichtigung auf dem Reiter)
+- SQL-Abfragen dauern evtl.\ lange, wenn das externe System nicht antwortet
+- evtl nicht individuell pro Student, sondern: Wie viele Nachrichten gab es HEUTE, aktualisieren mit CronJob
+- Diskussion, ob das sinnvoll ist
+
 % nicht funktionale Anforderungen, die allerdings NICHT in der Anforderungsanalyse herausgefallen sind
 \subsection{Opensource}
-\subsection{Stud.IP Plugin}
+
+\subsection{Anbindung von Matrix durch ein Stud.IP-Plugin}
+\label{sec:anf-plugin}
+Die Lernplattform Stud.IP besitzt eine Plugin-Schnittstelle, mit dessen Hilfe das LMS um beliebige Funktionen
+und Werkzeuge erweitert werden kann (Quelle: https://hilfe.studip.de/develop/Entwickler/PluginSchnittstelle).
+Der Grund hierfür sind die mitunter sehr individuellen Anforderungen jedes Standorts, an dem Stud.IP betrieben wird.
+Mit Hilfe von Plugins l"asst sich die Software bedarfsgenau konfigurieren ohne direkte "Anderungen am Kern-Programmcode
+vornehmen zu müssen.\\
+Eine der nicht funktionalen Anforderungen stellt somit die Anbindung des Matrix-Chats an Stud.IP
+in Form eines Plugins dar. So kann jeder Standort für sich entscheiden, ob er diese Anbindung überhaupt installieren
+und anbieten möchte.\\
+Plugins werden innerhalb von Stud.IP über den sogenannten Pluginmarktplatz bereitgestellt und
+lassen sich als Administratior einfach installieren und aktivieren bzw.\ deinstallieren oder deaktivieren.\\
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=400px]{images/plugins_admin.png}
+    \caption[Stud.IP Pluginverwaltung]{Stud.IP Pluginverwaltung}
+    \label{fig:plugins-admin}
+\end{figure}
+Ein Ausschnitt der Administrationsoberfl"ache für die Pluginverwaltung ist in Abbildung~\ref{fig:plugins-admin} zu sehen.
+Zus"atzlich zu dem Namen, der Version, dem Status und dem Aktionsmenü wird ebenfalls der Plugintyp angezeigt, von dem
+es verschiedene gibt, worauf ich im Implementationsteil weiter eingehen werde. Hier sei nur kurz die Besonderheit von
+Kern-Plugins erw"ahnt, die bereits bei der Standardinstallation von Stud.IP mitgeliefert und installiert werden.\\
+
+
 \subsection{keine zus"atzliche API}
+
 \subsection{Sicherheit}
+
 \subsection{Robustheit, Ausfallsicherheit}
 was passiert, wenn der Matrix Server für 3 Std.\ ausfaellt? Werden Messages gepuffert?
 Implementation direkt über eine Que laufen lassen, DB mit Ergebnissen, die noch so Matrix geschickt werden müssen +
@@ -351,53 +411,17 @@ Cronjob 1x Std., gibt es noch Ereignisse, die nicht abgearbeitet wurden?
 Hier die Anforderungskapitelüberschriften kopieren und Stück für Stück erörtern. Sinnhaftigkeit, Umsetzung,
 Mögliche Umsetzung oder keine Umsetzung diskutieren.
 
-\subsection{Übernamhme von Veranstaltungsinformationen Veranstaltungen auf R"aume abbilden + Übernahme der Teilnehmendenlisten}
-Kurse, Studengruppen, \dots sollten (automatisch) auf R"aume in Matrix abgebildet werden.
+\section{Übernamhme von Veranstaltungsinformationen Veranstaltungen auf R"aume abbilden + Übernahme der Teilnehmendenlisten}
+Kurse, Studengruppen, \dots sollten (automatisch) auf R"aume in Matrix abgebildet werden.\\
+Reiter: Chat mit konfigurationseinstellungen
+- nach Aktivierung nur für Doz und Tutoren sichtbar, die sollten die Erzeugung des Matrixraums anstoßen, nur, wenn eine Parametrisierung notwendig,
+sonst mit Pluginaktivierung automatisch machen
+- was passiert beim Löschen in Stud.IP und beim erneuten Anlegen?
+- wenn Raum erzeugt wurde, ist der Reiter auch für Studierende sichtbar mit Anleitung (Einfach halten, "Platzhalter"), + Knopf für Profilerstellung/Übertragung zu Matrix
 
-\subsection{kein zus"atzliches Login}
-Nur ein Login für beide Systeme/Dienste. Single Sign-On Stud.IP Nutzer sollten ohne zus"atzliches Login
-in einen Matrix Raum gelangen können.
-
-\subsection{Benachrichtigungsfunktion}
-\textbf{Synchronizit"at}
-Zum einen sollten Matrix und Blubber zeitlich synchron sein. Zum anderen w"are es wünschenswert, wenn
-die in einem System als gelesen markierte Nachrichten auch im anderen System als gelesen markiert würden.
-
-Man möchte in Matrix über relevante Ereignisse informiert werden. (-> sp"ater, was ist eigentlich relevant, Tabelle: Relevanzabsch"atzung für ereignisse,
-was ist relevant für alle? persönliche Pr"aferenzen kann man mit dem hier entschiedenen Modell nicht berücksichtigen, deshalb
-sind folgende
-Konfiguration pro Veranstaltung sinnvoll? Welche Ereignisse sollen Erscheinen, oder nicht?Diskussion, was spricht dafür, was spricht dagegegen? 
-Aus studentensicht evtl.\ verwirrend -> Agrument gegen Konfig.
-Elmar oder Marcus -> Noftifications, wenn z.B. eine Datei hochgeladen wird.
-Richtung Stud.IP -> Matrix, oder Matrix -> Stud.IP (nicht genannt, aber der Vollst"andigkeit halber dennoch genannt)
-braucht man eine Konfigurationsmöglichkeit dafür?
-wichtige Infos über die Kopplung hinweg.
-Informationsveranstaltung mit uniübergreifenden Infos, denkbar.
-(Eher ungeeignet, nach unten): unibezogene/veranstaltungsübergreifende Informationen, wie z.B. Rückmeldefristen, Unischließung, \dots
-(dies w"are ein reiner Infochannel, in dem alle Studierenden sein müssten,
-keine Antwortmöglichkeit -> one-way Kommunikation -> eMail/Stud.IP Benachrichtigung wie bisher ist da vielleicht besser)
-Besser: veranstaltungsbezogene Informationen, z.B. "eine Datei wurde hochgeladen", "Termin f"allt aus"
-
-
-\subsection{Direktnachrichten}
-1-zu-1 Chats\\
-
-\textbf{Sprechstundenfunktion} bei der man für eine kurze Zeit einen 1-zu-1 Chat
-mit einer Person führt und den Chat danach auch automatisch verlässt.
-Andere Personen sind in der Zeit in einer Warteschlange.
-
-\subsection{Transparenz}
-Verknüpfung zwischen Stud.IP und Matrix/Element deutlich machen.
-Welche Konsequenzen hat das eigene Handeln in Matrix, wenn ich in Stud.IP etwas mache?
-"Diese Aktion wird in Matrix erscheinen."
-"Wie bekommen die Studierenden mit, dass es den Kanal gibt?" - Studierende sollten irgendwie informiert werden.
-Reiter: Messenger -> Infos + Kurzanleitung + evtl. Konfiguration
-Kann man deutlich machen, wie w"are es denn, wenn ich in Stud.IP sehen kann, wenn in Element etwas passiert.\
-was heißt es eigenltich, wenn man zwei verschiedene Dienste hat?
-Was soll wo passieren? Hochladen einer Datei -> Dialog: erscheint auch im Matrix-Kanal, Schalter (Analyse Idee, schreiben, nicht umsetzen)?
-(Implementation: gibt Stud.IP)
-
-\subsection{Übernahme von Rollen, Rechten und Status}
+\section{Übernahme von Rollen, Rechten und Status}
+Keine automatische Übernahme der Teilnehmerliste, Datenschutz, einzeln Übernahme anstoßen pro Teilnehmer, Sichtbarkeitseinstellungen
+in Matrix nicht abbildbar. (mit Elmar sprechen!, Axel, Jens)
 manuelle Nutzerverwaltung in Matrix sollte nicht genutzt werden, zwischen Doz und Tutoren nicht unterscheiden.
 Userstatus spielt in der Praxis kaum eine Rolle. Synchen der User. User = autoren
 Anbindung von Fremdsystemen mit einem anderen Rollen-Rechte-Konzept.
@@ -421,12 +445,59 @@ gibt es Alternativen? ich sehe keinen guten Grund, das eine oder andere zu mache
 Beim Austragen oder aendern der Rechtestufe in Matrix synchron zu halten. -> Cronjob einmal stündlich
 Lose Kopplung, nur einmal anlegen, was danach mit dem Raum passiert ist offen
 
-\subsection{mehrere R"aume pro Kurs}
+\section{kein zus"atzliches Login}
+Nur ein Login für beide Systeme/Dienste. Single Sign-On Stud.IP Nutzer sollten ohne zus"atzliches Login
+in einen Matrix Raum gelangen können.
+
+\section{Benachrichtigungsfunktion}
+\textbf{Synchronizit"at}
+Zum einen sollten Matrix und Blubber zeitlich synchron sein. Zum anderen w"are es wünschenswert, wenn
+die in einem System als gelesen markierte Nachrichten auch im anderen System als gelesen markiert würden.
+
+Man möchte in Matrix über relevante Ereignisse informiert werden. (-> sp"ater, was ist eigentlich relevant, Tabelle: Relevanzabsch"atzung für ereignisse,
+was ist relevant für alle? persönliche Pr"aferenzen kann man mit dem hier entschiedenen Modell nicht berücksichtigen, deshalb
+sind folgende
+Konfiguration pro Veranstaltung sinnvoll? Welche Ereignisse sollen Erscheinen, oder nicht?Diskussion, was spricht dafür, was spricht dagegegen? 
+Aus studentensicht evtl.\ verwirrend -> Agrument gegen Konfig.
+Elmar oder Marcus -> Noftifications, wenn z.B. eine Datei hochgeladen wird. NotificationCenter::addOberver
+Richtung Stud.IP -> Matrix, oder Matrix -> Stud.IP (nicht genannt, aber der Vollst"andigkeit halber dennoch genannt)
+braucht man eine Konfigurationsmöglichkeit dafür?
+wichtige Infos über die Kopplung hinweg.
+Informationsveranstaltung mit uniübergreifenden Infos, denkbar.
+(Eher ungeeignet, nach unten): unibezogene/veranstaltungsübergreifende Informationen, wie z.B. Rückmeldefristen, Unischließung, \dots
+(dies w"are ein reiner Infochannel, in dem alle Studierenden sein müssten,
+keine Antwortmöglichkeit -> one-way Kommunikation -> eMail/Stud.IP Benachrichtigung wie bisher ist da vielleicht besser)
+Besser: veranstaltungsbezogene Informationen, z.B. "eine Datei wurde hochgeladen", "Termin f"allt aus"
+
+
+\section{Transparenz}
+(wird tendenziell nicht umgesetzt -> nur Konzept)
+Verknüpfung zwischen Stud.IP und Matrix/Element deutlich machen.
+Welche Konsequenzen hat das eigene Handeln in Matrix, wenn ich in Stud.IP etwas mache?
+"Diese Aktion wird in Matrix erscheinen."
+"Wie bekommen die Studierenden mit, dass es den Kanal gibt?" - Studierende sollten irgendwie informiert werden.
+Reiter: Messenger -> Infos + Kurzanleitung + evtl. Konfiguration
+Kann man deutlich machen, wie w"are es denn, wenn ich in Stud.IP sehen kann, wenn in Element etwas passiert.\
+was heißt es eigenltich, wenn man zwei verschiedene Dienste hat?
+Was soll wo passieren? Hochladen einer Datei -> Dialog: erscheint auch im Matrix-Kanal, Schalter (Analyse Idee, schreiben, nicht umsetzen)?
+(Implementation: gibt Stud.IP)
+
+\section{Direktnachrichten}
+1-zu-1 Chats\\
+- ist bereits in Matrix vorhanden, deshalb in der Umsetzung nicht vorgesehen
+- man Könnte die Stud.IP Direktchats mit Matrix verbinden
+
+\textbf{Sprechstundenfunktion} bei der man für eine kurze Zeit einen 1-zu-1 Chat
+mit einer Person führt und den Chat danach auch automatisch verlässt.
+Andere Personen sind in der Zeit in einer Warteschlange.
+
+\section{mehrere R"aume pro Kurs}
+(keine Umsetzung, nur Konzept)
 Es sollten aus einer Stud.IP Veranstaltung mehrere Matrix-R"aume erstellt werden können, die dann als Community
 zusammengefasst werden könnten.
 Mögliche Erweiterung (sinnvoll oder nicht?)
 
-\subsection{Kompatibilit"at von Nachrichten in Blubber und Matrix}
+\section{Kompatibilit"at von Nachrichten in Blubber und Matrix}
 Stud.IP (Blubber) sollte als regul"arer Client agieren.\\
 \textbf{Dateien versenden}
 Verlinken von Inhalten in Stud.IP
@@ -434,18 +505,55 @@ Eventuell zu aufw"andig.\\
 \textbf{Emoticons korrekt anzeigen}\\
 \textbf{Nachrichten sollten editier- und löschbar sein}
 
-\subsection{Übernahme des Stud.IP Profilbildes}
+\section{Übernahme des Stud.IP Profilbildes}
 Personenbezogene Daten. Datenschutz. Sobald Matrixkopplung, dann auch Bild übertragen (im Reiter, s.o.), aktive Zustimmung
 verweis auf Profil->Einstellungen->Privatsph"are->Eigenes Bild
 Stud.IP: Wie darf mein Bild verwendet werden? "Darf auch extern angezeigt werden"
 gibt die API das überhaupt her, kann man auch weglassen, wenn es aus Zeitgründen nicht mehr klappt
 
+\section{Stautsindikator in Stud.IP}
+(umsetzen)
+Icon für Reiter in Stud.IP. objectsUserVisit Tabelle
+- Wie viele Nachrichten gab es in Matrix seit dem letzten Besuch (Anzeige durch Icon + Tooltip + Benachrichtigung auf dem Reiter)
+- SQL-Abfragen dauern evtl.\ lange, wenn das externe System nicht antwortet
+- evtl nicht individuell pro Student, sondern: Wie viele Nachrichten gab es HEUTE, aktualisieren mit CronJob
+- Diskussion, ob das sinnvoll ist
+
 % nicht funktionale Anforderungen, die allerdings NICHT in der Anforderungsanalyse herausgefallen sind
-\subsection{Opensource}
-\subsection{Stud.IP Plugin}
-\subsection{keine zus"atzliche API}
-\subsection{Sicherheit}
-\subsection{Robustheit, Ausfallsicherheit}
+\section{Opensource}
+
+\section{Anbindung von Matrix durch ein Stud.IP-Plugin}
+Wie bereits im Anforderungskapitel~\ref{sec:anf-plugin} angesprochen soll die Anbindung von Matrix an Stud.IP
+mit Hilfe eines Plugins erfolgen, was die Option des direkten Einbaus in den Kern-Programmcode von vorn herein
+ausschließt.\\
+Für die Implementation sind somit grunds"atzlich zwei Varianten denkbar. Die erste Variante w"are die
+Umsetzung in einem Plugin und die zweite Variante w"aren mehrere Plugins, die anschließend interagieren.
+Wie bereits in Abbildung~\ref{fig:plugins-admin} zu sehen war, existieren in Stud.IP verschiedene Typen
+von Plugins, wobei ein konkretes Plugin mehrere Typen haben kann. Der Typ \texttt{StandardPlugin}
+ermöglicht es zum Beispiel eigene Navigationspunkte in Veranstaltungen bzw. Einrichtungen anzuzeigen.
+Allerdings wird dieser Plugintyp auch nur im Veranstaltungs- und Einrichtungskontext geladen.
+Das heißt auf der Startseite oder im globalen Adminbereich steht es nicht zur Verfügung und es lassen sich
+dort auch keine Konfigurationen vornehmen. Deshalb kann es nötig sein, dass ein Plugin mehrere Typen besitzt.\\
+Die verschiedenen Typen werden durch Interfaces repr"asentiert und können durch die jeweilige
+Plugin-Klasse implementiert werden. Aufgrund dieser verschiedenen Plugintypen kann es sinnvoll sein
+mehrere statt nur ein einziges Plugin für eine neue Funktion zu implementieren.\\
+
+Die Vorteile einer solchen eher modularisierteren Implementation durch mehrere Plugins sind die bessere
+Übersichtlichkeit, der Programmcode kann strukturierter aufgebaut werden und eine Wiederverwendung ist
+gegebenenfalls einfacher.
+- Beispiel: Schwarzes Brett (https://gitlab.studip.de/uol/plugins/SchwarzesBrettPlugin/-/blob/master/plugin.manifest)
+CODE: Pluginmanifest
+- mehrere Plugins können im Manifest zusammengefasst werden
+- hier könnte man folgendes auslagern: Adminkonfiguration, NotificationCenter
+
+
+
+\section{keine zus"atzliche API}
+Die Vorhandenen APIs von Stud.IP sowie Matrix können genutzt werden.
+
+\section{Sicherheit}
+
+\section{Robustheit, Ausfallsicherheit}
 was passiert, wenn der Matrix Server für 3 Std.\ ausfaellt? Werden Messages gepuffert?
 Implementation direkt über eine Que laufen lassen, DB mit Ergebnissen, die noch so Matrix geschickt werden müssen +
 Cronjob 1x Std., gibt es noch Ereignisse, die nicht abgearbeitet wurden?
