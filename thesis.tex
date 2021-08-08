@@ -45,7 +45,6 @@ Daraufhin folgt ein Grundlagenkapitel mit allen für diese Arbeit relevanten Hint
 Die Anforderungsanalyse bildet das n"achste Kapitel, in dem die Erhebung sowie alle daraus entstandenen Anforderungen
 aufgelistet und beschrieben werden.
 Anschließend wird die Umsetzung der herausgearbeiteten Anforderungen im Implementationskapitel dargestellt.\\
-- Deployment?\\
 Abschließend endet die Arbeit mit einer kurzen, größtenteils technischen Evaluation sowie einem Ausblick, der sich mit
 möglichen Verbesserungen und Erweiterungen für den Praxiseinsatz besch"aftigt.
 
@@ -77,7 +76,7 @@ noch einmal zus"atzlich an Relevanz gewonnen.\\
 \chapter{Hintergrund}
 Das folgende Kapitel befasst sich knapp mit den Grundlagen, die dieser Arbeit zu Grunde liegen.
 Begonnen bei Lernmanagementsystemen und Messanging-Systemen, hin zu den konkreten Implementationen
-Stud.IP und Matrix sowie Beispielen für die Anbindung anderer Fremdsysteme an eine Lernplattform.\\
+Stud.IP und Matrix sowie Beispielen für die Anbindung anderer Fremdsysteme an die Lernplattform Stud.IP.
 
 \section{Lernmanagementsysteme}
 \label{sec:lms}
@@ -114,7 +113,7 @@ administrative Ebene mit einer Nutzer-, Institutions-, und Kursverwaltung sowie 
 Die zweite Kategorie repr"asentiert eine Lernumgebung mit ihren Werkzeugen und Kommunikationswegen. Der letzte Block beschreibt
 das Authoring, dass die konkreten Lernobjekte, Aufgaben und Tests umfasst.\\
 
-\subsection{Stud.IP}
+\section{Stud.IP}
 Stud.IP ist eine Open Source Implementation eines LMS, dass Anfang der 2000er Jahre entwickelt wurde.
 Mit ihren offenen Schnittstellen erlaubt diese digitale Lernplattform
 die Integration von externen Systemen und Anwendungen zum Einsatz in der digitalen Lehre.
@@ -127,18 +126,78 @@ zwischen Lehrenden, Lernenden sowie Entwicklern essentiell.\\
 Stud.IP erfüllt alle im vorherigen Abschnitt~\ref{sec:lms} aufgeführten Anforderungen an ein LMS.\\
 Neben einer ausgereiften Benutzer- und Kursverwaltung inklusive eines Rollen- und Rechtesystems,
 existiert ebenfalls ein Forum und ein Chat zur Kommunikation sowie diverse Lernwerkzeuge (Etherpad, Wiki, Courseware, Vips).\\
+Stud.IP verfügt über diverse Werkzeuge sowie Schnittstellen zur Integration von externen Systemen und Anwendungen.
+Im Folgenden werden die für diese Arbeit relevanten Schnittstellen kurz beschrieben.\\
 
-\subsection{Stud.IP Schnittstellen}
-Stud.IP verfügt über eine JSON-API, mit deren Hilfe man diverse Daten abrufen sowie dem System hinzufügen kann,
-vorausgesetzt man verfügt über die entsprechenden Rechte.
-Besonderes Augenmerk auf Kommunikation zwischen Lehrenden und Lernenden (natürlich auch untereinander).
-JSON-API (Blubber)
-https://hilfe.studip.de/develop/Entwickler/JSONAPI
+\subsection{Stud.IP Plugins}
+\label{sec:plugins}
+Die Lernplattform Stud.IP besitzt eine Plugin-Schnittstelle, mit dessen Hilfe das LMS um beliebige Funktionen
+und Werkzeuge erweitert werden kann (Quelle: https://hilfe.studip.de/develop/Entwickler/PluginSchnittstelle).
+Der Grund hierfür sind die mitunter sehr individuellen Anforderungen jedes Standorts, an dem Stud.IP betrieben wird.
+Mit Hilfe von Plugins l"asst sich die Software bedarfsgenau konfigurieren ohne direkte "Anderungen am Kern-Programmcode
+vornehmen zu müssen.\\
+Plugins werden innerhalb von Stud.IP über den sogenannten Pluginmarktplatz bereitgestellt und
+lassen sich als Administratior einfach installieren und aktivieren bzw.\ deinstallieren oder deaktivieren.\\
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=400px]{images/plugins_admin.png}
+    \caption[Stud.IP Pluginverwaltung]{Stud.IP Pluginverwaltung}
+    \label{fig:plugins-admin}
+\end{figure}
+Ein Ausschnitt der Administrationsoberfl"ache für die Pluginverwaltung ist in Abbildung~\ref{fig:plugins-admin} zu sehen.
+Zus"atzlich zu dem Namen, der Version, dem Status und dem Aktionsmenü wird ebenfalls der Plugintyp angezeigt, von dem
+es verschiedene gibt, worauf ich im Implementationsteil weiter eingehen werde. Hier sei nur kurz die Besonderheit von
+Kern-Plugins erw"ahnt, die bereits bei der Standardinstallation von Stud.IP mitgeliefert und installiert werden.\\
+
+\subsection{JSON:API}
+\label{sec:json}
+Die JSON:API ist eine Spezifikation, die Konventionen dafür festlegt,
+wie ein Client den Abruf oder die Änderung von Ressourcen anfordert (Request)
+und wie ein Server auf diese Anforderungen reagieren soll (Response).
+Die allgemeine JSON:API-Spezifikation wurde entwickelt, um sowohl die Anzahl der Anfragen
+als auch die Menge der zwischen Clients und Servern übertragenen Daten zu minimieren.
+Dieses Effizienzziel wird erreicht, ohne die Lesbarkeit, Flexibilität oder Auffindbarkeit zu beeinträchtigen.
+(Quelle: https://jsonapi.org/format/)\\
+Stud.IP verfügt über eine solche JSON:API-Schnittstelle, welche die oben genannte allgemeine Spezifikation erfüllt und
+mit deren Hilfe diverse Daten abgerufen sowie dem System hinzugefügt können.\\
+Für Stud.IP existieren verschiedenste JSON:API-Routen, die unter folgender URI erreichbar sind:\\
+\\
+\texttt{https://<meine.studip.installation.de>/jsonapi.php/v1/<routen>}\\
+\\
+Ein Beispielaufruf zur Anforderung der Daten eines bestimmten Semester (eindeutigen ID) hat diese Form:\\
+\\
+\texttt{https://<meine.studip.installation.de>/jsonapi.php/v1/semester/<ID>}\\
+\\
+Die zugehörige Antwort im JSON-Format sieht wie folgt aus:
+\inputminted[linenos=true]{json}{code/json_response.json}
+
+Der Client bekommt die JSON-Repr"asentation eines Stud.IP-Semesters zurückgeliefert, welche
+alle relevanten Daten der Objekts enth"alt.
+Routen repr"asentieren die verschiedenen Stud.IP-Datenstrukturen und werden mit Hilfe einer
+\texttt{RouteMap} von der angefragten URI auf den entsprechenden Programmcode abgebildet.
+Die Abbildung~\ref{fig:jsonapi} stellt schemenhaft den Ablauf der Abarbeitung eines JSON:API-Requests dar.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=400px]{images/jsonapi-flow.png}
+    \caption[Stud.IP JSON:API Ablaufdiagramm]{Stud.IP JSON:API Ablaufdiagramm}
+    \label{fig:jsonapi}
+\end{figure}
+Nach einem initialen Request folgt die bereits angesprochende Routen-Zuordnung, welche den Programmcode bestimmt,
+der ausgeführt werden soll. Der Routen-Handler kümmert sich um eine JSON:API-konforme Antwort. Die folgende Schema-Zuordnung
+legt fest welche Schemaklasse bestimmte Stud.IP-Objekte in JSON umwandeln kann. Im n"achsten Schritt wird eben dieses
+Schema ausgew"ahlt, welches die konkrete Abbildung eines Stud.IP-Objekts in JSON definiert. Daraufhin kann die JSON:API-Antwort
+an den Client gesendet werden.\\
+(Quelle: https://hilfe.studip.de/develop/Entwickler/JSONAPI)\\
+
+\subsection{Cronjobs}
+
+
 
 \section{Anbindung von Fremdsystemen an Stud.IP}
 Im Kontext des Lernmanagementsystems Stud.IP existieren mehrere Beispiele für die Anbindung
-oder Einbettung von anderen Systemen an/in die LMS-Software. Im Folgenden werden einige
+oder Einbettung von anderen Systemen an bzw.\ in die LMS-Software. Im Folgenden werden einige
 Beispiele dafür aufgeführt.
+
 \subsection{Meetings Plugin}
 Meetings ist ein Stud.IP Videokonferenzplugin (Quelle github), das das LMS mit verschiedenen/unterschiedlichen
 Videokonferenzsoftwarelösungen, wie z.B. BigBlueButton (Quelle bigbluebutton.org), verbindet.
@@ -159,9 +218,9 @@ Videokonferenzen teilnehmen.\\
 \end{figure}
 - Funktionsweise kurz erl"autern -> Nutzen der BBB API\\
 - BigBlueButton API zum erstellen eines Meetings (create):\\
-\mintinline{http}{http://yourserver.com/bigbluebutton/api/create?[parameters]&checksum=[checksum]}\\
+\texttt{http://yourserver.com/bigbluebutton/api/create?[parameters]\&checksum=[checksum]}\\
+\\
 In Stud.IP direkt
-
 \inputminted[linenos=true]{php}{code/meetings_performRequest.php}
 \inputminted[linenos=true]{php}{code/meetings_getMeetingInfo.php}
 
@@ -373,26 +432,9 @@ Icon für Reiter in Stud.IP. objectsUserVisit Tabelle
 
 \subsection{Anbindung von Matrix durch ein Stud.IP-Plugin}
 \label{sec:anf-plugin}
-Die Lernplattform Stud.IP besitzt eine Plugin-Schnittstelle, mit dessen Hilfe das LMS um beliebige Funktionen
-und Werkzeuge erweitert werden kann (Quelle: https://hilfe.studip.de/develop/Entwickler/PluginSchnittstelle).
-Der Grund hierfür sind die mitunter sehr individuellen Anforderungen jedes Standorts, an dem Stud.IP betrieben wird.
-Mit Hilfe von Plugins l"asst sich die Software bedarfsgenau konfigurieren ohne direkte "Anderungen am Kern-Programmcode
-vornehmen zu müssen.\\
 Eine der nicht funktionalen Anforderungen stellt somit die Anbindung des Matrix-Chats an Stud.IP
 in Form eines Plugins dar. So kann jeder Standort für sich entscheiden, ob er diese Anbindung überhaupt installieren
 und anbieten möchte.\\
-Plugins werden innerhalb von Stud.IP über den sogenannten Pluginmarktplatz bereitgestellt und
-lassen sich als Administratior einfach installieren und aktivieren bzw.\ deinstallieren oder deaktivieren.\\
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=400px]{images/plugins_admin.png}
-    \caption[Stud.IP Pluginverwaltung]{Stud.IP Pluginverwaltung}
-    \label{fig:plugins-admin}
-\end{figure}
-Ein Ausschnitt der Administrationsoberfl"ache für die Pluginverwaltung ist in Abbildung~\ref{fig:plugins-admin} zu sehen.
-Zus"atzlich zu dem Namen, der Version, dem Status und dem Aktionsmenü wird ebenfalls der Plugintyp angezeigt, von dem
-es verschiedene gibt, worauf ich im Implementationsteil weiter eingehen werde. Hier sei nur kurz die Besonderheit von
-Kern-Plugins erw"ahnt, die bereits bei der Standardinstallation von Stud.IP mitgeliefert und installiert werden.\\
 
 
 \subsection{keine zus"atzliche API}
@@ -559,15 +601,6 @@ Implementation direkt über eine Que laufen lassen, DB mit Ergebnissen, die noch 
 Cronjob 1x Std., gibt es noch Ereignisse, die nicht abgearbeitet wurden?
 %Performance, woanders betrachten
 
-
-
-
-
-\chapter{Deployment}
-Unter Umst"anden beschreiben, wie Matrix mit Hilfe von Ansible im Kontext der Praxisrelevanz
-aufgesetzt werden kann.
-(Wobei man auch einfach einen bereits bestehenden Matrix-Server voraussetzen könnte).
-Eventuell die Installation des Stud.IP Plugins und die nötige Konfiguration beschreiben.
 
 
 

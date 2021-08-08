@@ -1,0 +1,19 @@
+{
+  "data": {
+    "type": "semesters",
+    "id": "322f640f3f4643ebe514df65f1163eb1",
+    "attributes": {
+      "title": "SS 2021",
+      "description": "",
+      "token": "",
+      "start": "2021-04-01T00:00:00+02:00",
+      "end": "2021-09-30T23:59:59+02:00",
+      "start-of-lectures": "2021-04-12T00:00:00+02:00",
+      "end-of-lectures": "2021-07-16T23:59:59+02:00",
+      "visible": true
+    },
+    "links": {
+      "self": "\/trunk\/jsonapi.php\/v1\/semesters\/322f640f3f4643ebe514df65f1163eb1"
+    }
+  }
+}
