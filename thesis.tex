@@ -259,26 +259,37 @@ Damit ist die Funktionalit"at des Stud.IP Meetings Plugins grunds"atzlich gezeig
 die Anbindung von BigBlueButton mit Hilfe der API deutlich gemacht.
 
 \subsection{Etherpad Plugin}
-Das Etherpad Plugin ist ein weiteres Modul durch das ein externes Programm (Etherpad) mit Hilfe eines \texttt{iframe}
-in Stud.IP eingebunden wird.\\
-Etherpad ist ein kollaborativer echtzeit Editor, der das gleichzeitige Editieren eines
-Dokuments durch viele Nuter*innen erlaubt (Quelle: github Repository).\\
-- (Uni-) eigene Installation\\
-- Integration/Einbettung vom Etherpad per iframe\\
+\label{sec:etherpad}
+Die webbasierte Open-Source-Software Etherpad ist ein kollaborativer Echtzeit-Editor, der das Bearbeiten eines
+Dokuments durch viele Nuter*innen gleichzeitig erlaubt (Quelle: https://github.com/ether/etherpad-lite).\\
+Jedem Teilnehmenden wird dazu eine eindeutige Farbe beim Editieren des Textes zugewiesen.
+Die integrierte Versionierung macht es zudem einfach vorherige "Anderungen nachzuvollziehen oder
+auf eine alte Version zurückzugreifen, falls nötig.
+Damit eignet sich Etherpad insbesondere gut für Brainstorming, Protokolle, Sammlungen,
+Gruppen- und Seminararbeiten oder ähnliches.\\
+
+Das Etherpad Plugin ist ein weiteres Modul mit dem das externe Programm Etherpad
+in Stud.IP eingebunden wird. Das Plugin verbindet die Lernplattform mit einem Etherpad-Lite Server, der in vielen
+F"allen von der jeweiligen Institution selbst gehostet werden kann.\\
+Dozenten oder Tutoren beliebig viele der sogenannten Pads in einer Stud.IP-Veranstaltung bzw. -Studiengruppe anlegen.
+Innerhalb einer Veranstaltung können die Teilnehmenden anschließend die bereits existierenden Pads
+zum gemeinsamen Arbeiten nutzen.\\
+Die technische Umsetzung der Einbettung des Editors in Stud.IP sieht folgendermaßen aus und
+geschieht mit Hilfe eines \texttt{iframe}, dessen Ausmaße auf sinnvolle Weise beschr"ankt werden.
+(Quelle: https://github.com/luniki/studip-plugin-studipad)
 \inputminted[linenos=true]{html}{code/etherpad_iframe.php}
-- Optik anhand eines Screenshots zeigen\\
+Die Benutzeroberfl"ache eines konkreten Pads einer Veranstaltung in Stud.IP
+ist in Abbildung~\ref{fig:pad-iframe} dargestellt.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=400px]{images/pad_iframe.jpeg}
+    \includegraphics[width=400px]{images/pad_iframe.png}
     \caption[Etherpad: Einbettung mit \texttt{iframe}]{Etherpad: Einbettung mit \texttt{iframe}}
     \label{fig:pad-iframe}
 \end{figure}
-
-- Versionshistorie\\
-- Veröffentlichungsfunktion, sodass das Pad auch außerhalb von Stud.IP per generiertem Link
-zu erreichen ist\\
-- beliebig viele Pads je Stud.IP Veranstaltung\\
-- grob auf die Funktionsweise eingehen
+Neben dem eingebetteten Editor mit seinen Formatierungsmöglichkeiten verfügt das Plugin über
+ein Stud.IP-Aktionsmenü mit erweiterten Funktionen wie beispielsweise dem PDF-Export des Textes
+("`Aktuellen Inhalt sichern"') und einer Veröffentlichungsfunktion, wodurch das Pad auch außerhalb
+von Stud.IP per generiertem Link zu erreichen ist.\\
 
 \subsection{Moodle-Connect Plugin}
 Mit Hilfe des Moodle-Connect Plugins lassen sich Veranstaltungen aus Stud.IP mit
