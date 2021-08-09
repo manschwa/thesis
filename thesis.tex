@@ -187,7 +187,7 @@ der ausgeführt werden soll. Der Routen-Handler kümmert sich um eine JSON:API-kon
 legt fest welche Schemaklasse bestimmte Stud.IP-Objekte in JSON umwandeln kann. Im n"achsten Schritt wird eben dieses
 Schema ausgew"ahlt, welches die konkrete Abbildung eines Stud.IP-Objekts in JSON definiert. Daraufhin kann die JSON:API-Antwort
 an den Client gesendet werden.\\
-(Quelle: https://hilfe.studip.de/develop/Entwickler/JSONAPI)\\
+(Quelle: https://hilfe.studip.de/develop/Entwickler/JSONAPI)
 
 \subsection{Cronjobs}
 
@@ -195,42 +195,85 @@ an den Client gesendet werden.\\
 
 \section{Anbindung von Fremdsystemen an Stud.IP}
 Im Kontext des Lernmanagementsystems Stud.IP existieren mehrere Beispiele für die Anbindung
-oder Einbettung von anderen Systemen an bzw.\ in die LMS-Software. Im Folgenden werden einige
-Beispiele dafür aufgeführt.
+oder Einbettung von anderen Systemen an bzw.\ in die LMS-Software. Im Folgenden werden ein paar
+solcher Integrationen konkret aufgeführt.
 
 \subsection{Meetings Plugin}
-Meetings ist ein Stud.IP Videokonferenzplugin (Quelle github), das das LMS mit verschiedenen/unterschiedlichen
-Videokonferenzsoftwarelösungen, wie z.B. BigBlueButton (Quelle bigbluebutton.org), verbindet.
-Das Plugin ermöglicht es direkt aus einer Stud.IP-Veranstaltung heraus R"aume für z.B. Vorlesungen,
+Meetings ist ein Stud.IP Videokonferenzplugin (Quelle github), das das LMS mit unterschiedlichen
+Videokonferenzsoftwarelösungen, wie z.B. BigBlueButton (Quelle: bigbluebutton.org), verknüpfen kann.
+Das Plugin ermöglicht es direkt aus einer Stud.IP-Veranstaltung heraus Videokonferenzr"aume für z.B. Vorlesungen,
 Webinare, Vortr"age oder Gruppenarbeiten anzulegen, denen die Teilnehmer*innen der Veranstaltung
 beitreten können (dank der Rechteverwaltung in Stud.IP).
-Weiterhin können auch externe Personen (ohne Stud.IP-Nutzerkonto) per Einladungslink an
-Videokonferenzen teilnehmen.\\
-- Kommunikation über Mikrofon und Kamera + Screen Sharing\\
-- ideal für dezentrales Lernen und Arbeiten\\
-- Möglichkeit von Aufzeichnungen\\
-- Screenshot des "Raum erstellen" Dialogs mit all seinen Optionen, kurz darauf eingehen\\
+Per Einladungslink ist es auch Personen ohne ein Stud.IP-Nutzerkonto (z.B. Gastredner) möglich
+an Videokonferenzen teilzunehmen.\\
+Neben den zu erwartenden Kommunikationswerkzeugen wie Mikrofon, Kamera und einer Chatfunktion können zus"atzlich
+gemeinsam Pr"asentationen angesehen, Texte im integrierten Etherpad kooperativ erstellt und
+der eigene Bildschirm für alle Teilnehmenden freigeschaltet werden.
+Das Plugin ist somit eine ideale Erweiterung für dezentrales Lernen und Arbeiten,
+insbesondere da auch aus einfachen Stud.IP-Studiengruppen heraus Meetings-R"aume erstellt werden können,
+außerhalb des strikten Lehrveranstaltungskontextes.
+Dies hilft Lehrenden bei der Vernetzung und Studierenden bei der Bildung von Arbeits- und Lerngruppen.\\
+Weiterhin besteht auch die Möglichkeit Videokonferenzen aufzuzeichnen, was die Nacharbeitung oder Wiederholung
+von Lehrinhalten bei einem verpassten Meeting um ein Vielfaches erleichtert.\\
+(Quelle: https://hilfe.studip.de/help/4.4/de/Basis/Meetings)
+Die folgende Abbildung~\ref{fig:meetings-dialog} zeigt einen Screenshot des "`Raum erstellen"'-Dialogs
+in dem Meetings Plugin mit all seinen Optionen.\\
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=400px]{images/meetings_dialog.jpeg}
     \caption[Meetings-Plugin: Dialog bei Raumerstellung]{Meetings-Plugin: Dialog bei Raumerstellung}
     \label{fig:meetings-dialog}
 \end{figure}
-- Funktionsweise kurz erl"autern -> Nutzen der BBB API\\
-- BigBlueButton API zum erstellen eines Meetings (create):\\
-\texttt{http://yourserver.com/bigbluebutton/api/create?[parameters]\&checksum=[checksum]}\\
-\\
-In Stud.IP direkt
-\inputminted[linenos=true]{php}{code/meetings_performRequest.php}
-\inputminted[linenos=true]{php}{code/meetings_getMeetingInfo.php}
 
+Neben den Grundeinstellungen wie \texttt{Raumname} und \texttt{Systemeinstellung} können noch diverse andere
+Konfigurationsoptionen ausgew"ahlt werden, die je nach selektiertem Konferenzsystem unterschiedlich ausfallen.
+Die Abbildung~\ref{fig:meetings-dialog} verdeutlicht welche Auswahlmöglichkeiten in BigBlueButton zur
+Verfügung stehen und stellt die
+Benutzeroberfl"ache dar, die als Grundlage der im Folgenden beispielhaft beschriebenen BigBlueButton API
+dient.\\
+Um einen API-Aufruf an den BigBlueButton-Server zu senden,
+stellt man eine HTTPS-Anfrage an den API-Endpunkt des BigBlueButton-Servers
+(normalerweise bestehend aus dem Hostnamen des Servers gefolgt von \texttt{/bigbluebutton/api}).
+Alle API-Aufrufe müssen eine Prüfsumme enthalten,
+die mit Hilfe eines mit dem BigBlueButton-Server geteilten Geheimnis berechnet wird.\\
+Der BigBlueButton-Server gibt daraufhin eine Antwort im XML-Format für alle API-Aufrufe zurück.
+Beispielhaft ist hier der API-Aufruf zum Erstellen eines Meetings in BigBlueButton
+aufgeführt (\texttt{create}):\\
+\\
+\texttt{http://mein.server.de/bigbluebutton/api/create?[parameters]\&checksum=[checksum]}\\
+\\
+(Quelle: https://docs.bigbluebutton.org/dev/api.html\#create)\\
+Die konkrete Implementation auf Programmcodeebene sieht folgendermaßen aus:
+\inputminted[linenos=true]{php}{code/meetings_create.php}
+Zum besseren Verst"andnis werden hier nur die relevanten Abschnitte und Methoden gezeigt.
+Die Funktion \texttt{createMeeting()} sammelt zun"achst alle Parameter, die zur Erstellung
+eines Meetings relevant sind und deren Werte zuvor in der Nutzeroberfl"ache ausgew"ahlt wurden.\\
+In Zeile 12 wird anschließend die Methode \texttt{performRequest()} mit dem entsprechenden
+Schüsselwort \texttt{create} und den Parametern aufgerufen. Bei einem Erfolg wird \texttt{true}
+zurückgegeben.\\
+Die Funktion \texttt{performRequest()} wird ab Zeile 19 beschrieben und zeigt auf,
+wie die konkrete Serveranfrage mit dem jeweiligen Endpoint entsprechend
+der oben skizzierten allgemeinen Spezifikation zusammengestellt wird.
+Am Ende wird der die XML-Antwort des Servers im Response-Body zurückgegeben.\\
+Damit ist die Funktionalit"at des Stud.IP Meetings Plugins grunds"atzlich gezeigt und
+die Anbindung von BigBlueButton mit Hilfe der API deutlich gemacht.
 
 \subsection{Etherpad Plugin}
+Das Etherpad Plugin ist ein weiteres Modul durch das ein externes Programm (Etherpad) mit Hilfe eines \texttt{iframe}
+in Stud.IP eingebunden wird.\\
 Etherpad ist ein kollaborativer echtzeit Editor, der das gleichzeitige Editieren eines
-Dokuments durch viele Nuter*innen erlaubt (Quelle github Repository).\\
+Dokuments durch viele Nuter*innen erlaubt (Quelle: github Repository).\\
 - (Uni-) eigene Installation\\
 - Integration/Einbettung vom Etherpad per iframe\\
+\inputminted[linenos=true]{html}{code/etherpad_iframe.php}
 - Optik anhand eines Screenshots zeigen\\
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=400px]{images/pad_iframe.jpeg}
+    \caption[Etherpad: Einbettung mit \texttt{iframe}]{Etherpad: Einbettung mit \texttt{iframe}}
+    \label{fig:pad-iframe}
+\end{figure}
+
 - Versionshistorie\\
 - Veröffentlichungsfunktion, sodass das Pad auch außerhalb von Stud.IP per generiertem Link
 zu erreichen ist\\
@@ -269,6 +312,10 @@ dem StudipAuthLTI oder StudipAuthAlija Auth-Plugin.\\
 Was ist das?
 \subsection{Matrix}
 Konkretes Beispiel eines Messenger-Backends.
+Matrix ist ein offener Standard für interoperable, dezentralisierte Echtzeitkommunikation über IP\@.
+Er kann für Instant Messaging, VoIP/WebRTC-Signalisierung, Kommunikation im Internet der Dinge oder überall dort eingesetzt werden, wo eine Standard-HTTP-API für die Veröffentlichung und das Abonnieren von Daten bei gleichzeitiger Verfolgung des Gesprächsverlaufs benötigt wird.
+
+Matrix definiert den Standard und stellt Open-Source-Referenzimplementierungen von Matrix-kompatiblen Servern, Client-SDKs und Anwendungsdiensten zur Verfügung, die Ihnen helfen, neue Kommunikationslösungen zu entwickeln oder die Fähigkeiten und Reichweite bestehender Lösungen zu erweitern.
 \subsection{Matrix Schnittstellen}
 https://matrix.org/docs/guides/client-server-api
 
