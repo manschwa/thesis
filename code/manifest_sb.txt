@@ -1,0 +1,7 @@
+pluginname=SchwarzesBrettPlugin
+pluginclassname=SchwarzesBrettPlugin
+pluginclassname=SchwarzesBrettWidget
+origin=UOL
+version=4.5.1
+description=Globales Schwarzes Brett fuer Kleinanzeigen mit Kategorien (Gesuche/Angebote)
+studipMinVersion=4.5

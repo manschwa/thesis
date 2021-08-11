@@ -1,0 +1,11 @@
+password_providers:
+   - module: "ldap_auth_provider.LdapAuthProvider"
+     config:
+       enabled: true
+       uri: "ldap://ldap.uni-osnabrueck.de:389"
+       start_tls: true
+       base: "ou=people,dc=uni-osnabrueck,dc=de"
+       attributes:
+          uid: "uid"
+          mail: "mail"
+          name: "cn"
